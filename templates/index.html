@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Organization Details</title>
+  </head>
+  <body>
+    <h1>Organization Details</h1>
+
+    <form method="POST">
+      <label for="organization">Select Organization:</label>
+      <select name="organization" id="organization">
+        {% for org in organizations %}
+        <option value="{{ org }}">{{ org }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit">Submit</button>
+    </form>
+
+    {% if org_details %}
+    <h2>Details for: {{ org_details.organization }}</h2>
+    <p>Average Rating: {{ org_details.avg_rating }}</p>
+    <p>Total Enrolled Students: {{ org_details.total_enrolled }}</p>
+
+    <h3>Courses by Difficulty</h3>
+    <table border="1">
+      <tr>
+        <th>Difficulty</th>
+        <th>Courses</th>
+      </tr>
+      {% for difficulty, courses in org_details.difficulty_courses.items() %}
+      <tr>
+        <td>{{ difficulty }}</td>
+        <td>{{ courses | join(', ') }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+  </body>
+</html>
