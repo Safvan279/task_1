@@ -1,8 +1,6 @@
 from flask import Flask, render_template, request
 import sqlite3
 import pandas as pd
-import requests
-
 app = Flask(__name__)
 
 dataset = "https://raw.githubusercontent.com/Siddharth1698/Coursera-Course-Dataset/master/UCoursera_Courses.csv"
@@ -11,15 +9,6 @@ def convert(value):
     if isinstance(value, str) and value.endswith('k'):
         return float(value[:-1]) * 1000
     return value
-
-
-def load_data():
-    response = requests.get(dataset)
-    data = pd.read_csv()
-    data['course_students_enrolled'] = data['course_students_enrolled'].apply(convert)
-    conn = sqlite3.connect('courses.db')
-    data.to_sql('courses', conn, if_exists='replace', index=False)
-    conn.close()
 
 
 
@@ -50,6 +39,8 @@ def organization():
             'total_enrolled': total_enrolled if total_enrolled else 0,
             'difficulty_courses': difficulty_courses
         }
+
+        
     return render_template('index.html', organizations=organizations, org_details=org_details)
 
 
